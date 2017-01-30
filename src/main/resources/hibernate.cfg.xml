@@ -1,0 +1,28 @@
+<hibernate-configuration>
+    <session-factory>
+        <!-- Database connection setting -->
+        <property name="connection.driver_class">org.h2.Driver</property>
+
+        <!-- Server mode -->
+        <property name="connection.url">jdbc:h2:tcp://localhost/./data/public-data</property>
+
+        <!-- Embedded mode
+         <property name="connection.url">jdbc:h2:./data/public-data</property>
+        -->
+
+        <!-- SQL dialect -->
+        <property name="dialect">org.hibernate.dialect.H2Dialect</property>
+
+        <!-- Update the database schema on startup -->
+        <property name="hbm2ddl.auto">update</property>
+
+        <!-- Show the queries prepared by Hibernate -->
+        <property name="show_sql">true</property>
+
+        <!-- Formats SQL queries -->
+        <property name="format_sql">true</property>
+
+        <!-- Names the annotated entity classes -->
+        <mapping class="com.teamtreehouse.public_data.model.Country" />
+    </session-factory>
+</hibernate-configuration>

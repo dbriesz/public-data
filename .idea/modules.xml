@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/public-data.iml" filepath="$PROJECT_DIR$/.idea/modules/public-data.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/public-data_main.iml" filepath="$PROJECT_DIR$/.idea/modules/public-data_main.iml" group="public-data" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/public-data_test.iml" filepath="$PROJECT_DIR$/.idea/modules/public-data_test.iml" group="public-data" />
+    </modules>
+  </component>
+</project>
