@@ -4,10 +4,11 @@
         <property name="connection.driver_class">org.h2.Driver</property>
 
         <!-- Server mode -->
-        <property name="connection.url">jdbc:h2:tcp://localhost/./data/public_data</property>
+        <property name="connection.url">jdbc:h2:tcp://localhost/./data/worldbank</property>
+        <property name="connection.username">sa</property>
 
         <!-- Embedded mode
-         <property name="connection.url">jdbc:h2:./data/public_data</property>
+         <property name="connection.url">jdbc:h2:./data/worldbank</property>
         -->
 
         <!-- SQL dialect -->
