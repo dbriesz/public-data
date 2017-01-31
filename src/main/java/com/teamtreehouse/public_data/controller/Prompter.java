@@ -2,23 +2,22 @@ package com.teamtreehouse.public_data.controller;
 
 import com.teamtreehouse.public_data.dao.CountryDao;
 import com.teamtreehouse.public_data.model.Country;
+import javassist.NotFoundException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Prompter {
+    private CountryDao dao;
     private List<Country> countries;
     private BufferedReader reader;
     private Map<String, String> menu;
-    private CountryDao dao;
 
     public Prompter(CountryDao countryDao) {
         dao = countryDao;
-        countries = dao.fetchAllCountries();
+        countries = new ArrayList<>();
         reader = new BufferedReader(new InputStreamReader(System.in));
         menu = new HashMap<>();
         menu.put("edit", "Edit a country");
@@ -56,25 +55,24 @@ public class Prompter {
     }
 
     private Country promptForCountry(List<Country> countries) throws IOException {
-        int counter = 1;
-        int selection = -1;
+        String choice = "";
         for (Country country : countries) {
-            System.out.printf("%d.)  %s %n", counter, country.getName());
-            counter++;
+            System.out.printf("%s.)  %s %n", country.getCode(), country.getName());
         }
 
         do {
             try {
                 System.out.print("Select a country:");
-                String optionAsString = reader.readLine();
-                selection = Integer.parseInt(optionAsString.trim());
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid input.  Please enter a number.");
+                choice = reader.readLine();
+                countries.stream()
+                        .filter(country -> country.getCode().equals(choice))
+                        .findFirst()
+                        .orElseThrow(NotFoundException::new);
+            } catch (IOException e) {
+                System.out.println("Invalid input.  Please enter a 3 letter country code.");
             }
-        } while (selection > countries.size() || selection < 1);
-        selection = selection - 1;
+        } while (choice.length() != 3);
 
-        int index = countries.indexOf(selection);
-        return dao.fetchAllCountries().get(index);
+        return dao.findCountryByCode(choice);
     }
 }

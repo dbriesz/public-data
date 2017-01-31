@@ -8,7 +8,8 @@
         <property name="connection.username">sa</property>
 
         <!-- Embedded mode
-         <property name="connection.url">jdbc:h2:./data/worldbank</property>
+        <property name="connection.url">jdbc:h2:./data/worldbank</property>
+        <property name="connection.username">sa</property>
         -->
 
         <!-- SQL dialect -->

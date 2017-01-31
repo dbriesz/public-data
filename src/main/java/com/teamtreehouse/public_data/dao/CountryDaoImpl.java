@@ -99,7 +99,7 @@ public class CountryDaoImpl implements CountryDao {
     }
 
     @Override
-    public Country findCountryByCode(int code) {
+    public Country findCountryByCode(String code) {
         // Open a session
         Session session = sessionFactory.openSession();
 

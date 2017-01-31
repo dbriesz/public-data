@@ -6,7 +6,7 @@ import javax.persistence.*;
 public class Country {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int code;
+    private String code;
 
     @Column
     private String name;
@@ -36,11 +36,11 @@ public class Country {
                 '}';
     }
 
-    public int getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(int code) {
+    public void setCode(String code) {
         this.code = code;
     }
 

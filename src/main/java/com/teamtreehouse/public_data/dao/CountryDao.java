@@ -10,5 +10,5 @@ public interface CountryDao {
     void deleteCountry(Country country);
 
     List<Country> fetchAllCountries();
-    Country findCountryByCode(int code);
+    Country findCountryByCode(String code);
 }
