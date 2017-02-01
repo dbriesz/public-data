@@ -18,6 +18,7 @@ public class Prompter {
     public Prompter(CountryDao countryDao) {
         dao = countryDao;
         countries = new ArrayList<>();
+        countries = dao.fetchAllCountries();
         reader = new BufferedReader(new InputStreamReader(System.in));
         menu = new HashMap<>();
         menu.put("edit", "Edit a country");
@@ -55,24 +56,26 @@ public class Prompter {
     }
 
     private Country promptForCountry(List<Country> countries) throws IOException {
-        String choice = "";
+        String choice;
+        Country countryChoice = null;
         for (Country country : countries) {
-            System.out.printf("%s.)  %s %n", country.getCode(), country.getName());
+            System.out.printf("Country Code: %s \tCountry: %s %n", country.getCode(), country.getName());
         }
 
         do {
             try {
-                System.out.print("Select a country:");
+                System.out.print("Select a country by its 3 letter code):");
                 choice = reader.readLine();
-                countries.stream()
-                        .filter(country -> country.getCode().equals(choice))
-                        .findFirst()
-                        .orElseThrow(NotFoundException::new);
+                if (choice.length() != 3) {
+                    System.out.print("Select a country by its 3 letter code):");
+                    choice = reader.readLine();
+                }
+                countryChoice = dao.findByCode(countries, choice);
             } catch (IOException e) {
                 System.out.println("Invalid input.  Please enter a 3 letter country code.");
             }
-        } while (choice.length() != 3);
+        } while (countryChoice == null);
 
-        return dao.findCountryByCode(choice);
+        return countryChoice;
     }
 }

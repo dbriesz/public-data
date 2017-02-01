@@ -10,5 +10,8 @@ public interface CountryDao {
     void deleteCountry(Country country);
 
     List<Country> fetchAllCountries();
-    Country findCountryByCode(String code);
+
+//  Country findCountryByCode(String code);
+
+    Country findByCode(List<Country> countries, String code);
 }

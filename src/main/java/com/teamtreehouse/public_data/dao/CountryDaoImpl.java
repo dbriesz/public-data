@@ -16,6 +16,7 @@ public class CountryDaoImpl implements CountryDao {
 
     public CountryDaoImpl() {
         countries = new ArrayList<>();
+        countries = fetchAllCountries();
     }
 
     // Hold a reusable reference to a SessionFactory
@@ -98,7 +99,7 @@ public class CountryDaoImpl implements CountryDao {
         return countries;
     }
 
-    @Override
+    /*@Override
     public Country findCountryByCode(String code) {
         // Open a session
         Session session = sessionFactory.openSession();
@@ -111,5 +112,13 @@ public class CountryDaoImpl implements CountryDao {
 
         // Return the object
         return country;
+    }*/
+
+    @Override
+    public Country findByCode(List<Country> countries, String code) {
+        return countries.stream()
+                .filter(country -> country.getCode().equals(code))
+                .findFirst()
+                .orElse(null);
     }
 }
