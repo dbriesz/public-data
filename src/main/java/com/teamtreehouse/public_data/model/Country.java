@@ -5,7 +5,6 @@ import javax.persistence.*;
 @Entity
 public class Country {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String code;
 
     @Column

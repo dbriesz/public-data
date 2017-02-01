@@ -44,9 +44,8 @@ public class Prompter {
                 choice = promptAction();
                 switch (choice) {
                     case "edit":
-                    Country country = promptForCountry(countries);
-                    country = editCountryData(country);
-                    dao.editCountry(country);
+                    editCountryData();
+                    break;
                 }
             } catch (IOException ioe) {
                 System.out.print("%nProblem with input%n%n");
@@ -64,7 +63,7 @@ public class Prompter {
 
         do {
             try {
-                System.out.print("\nSelect a country by its 3 letter code): ");
+                System.out.print("\nSelect a country by its 3 letter code: ");
                 choice = reader.readLine();
                 if (choice.length() != 3) {
                     System.out.print("\nSelect a country by its 3 letter code): ");
@@ -79,8 +78,11 @@ public class Prompter {
         return countryChoice;
     }
 
-    private Country editCountryData(Country country) throws IOException {
-
+    private void editCountryData() throws IOException {
+        Country country = promptForCountry(countries);
+        System.out.print("\nPlease enter a 3 letter country code: ");
+        String code = reader.readLine();
+        country.setCode(code.toUpperCase());
         System.out.print("\nPlease enter the country name: ");
         String name = reader.readLine();
         country.setName(name);
@@ -91,12 +93,8 @@ public class Prompter {
         Double adultLiteracy = Double.parseDouble(reader.readLine());
         country.setAdultLiteracyRate(adultLiteracy);
 
-        country = new Country.CountryBuilder(name)
-                .withInternetUsers(internetUsers)
-                .withAdultLiteracy(adultLiteracy)
-                .build();
+        dao.editCountry(country);
 
         System.out.println("\nUpdating...");
-        return country;
     }
 }
