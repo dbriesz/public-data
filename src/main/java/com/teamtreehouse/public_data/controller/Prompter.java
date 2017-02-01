@@ -2,7 +2,6 @@ package com.teamtreehouse.public_data.controller;
 
 import com.teamtreehouse.public_data.dao.CountryDao;
 import com.teamtreehouse.public_data.model.Country;
-import javassist.NotFoundException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -46,7 +45,8 @@ public class Prompter {
                 switch (choice) {
                     case "edit":
                     Country country = promptForCountry(countries);
-                    // dao.editCountry(country);
+                    country = editCountryData(country);
+                    dao.editCountry(country);
                 }
             } catch (IOException ioe) {
                 System.out.print("%nProblem with input%n%n");
@@ -77,5 +77,26 @@ public class Prompter {
         } while (!countries.contains(countryChoice) || countryChoice == null);
 
         return countryChoice;
+    }
+
+    private Country editCountryData(Country country) throws IOException {
+
+        System.out.print("\nPlease enter the country name: ");
+        String name = reader.readLine();
+        country.setName(name);
+        System.out.print("\nPlease enter the number of internet users: ");
+        Double internetUsers = Double.parseDouble(reader.readLine());
+        country.setInternetUsers(internetUsers);
+        System.out.print("\nPlease enter the adult literacy rate: ");
+        Double adultLiteracy = Double.parseDouble(reader.readLine());
+        country.setAdultLiteracyRate(adultLiteracy);
+
+        country = new Country.CountryBuilder(name)
+                .withInternetUsers(internetUsers)
+                .withAdultLiteracy(adultLiteracy)
+                .build();
+
+        System.out.println("\nUpdating...");
+        return country;
     }
 }

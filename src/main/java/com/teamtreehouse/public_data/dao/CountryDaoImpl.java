@@ -55,7 +55,7 @@ public class CountryDaoImpl implements CountryDao {
         session.beginTransaction();
 
         // Use the session to save the country
-        int code = (int)session.save(country);
+        String code = (String)session.save(country);
 
         // Commit the transaction
         session.getTransaction().commit();
@@ -98,21 +98,6 @@ public class CountryDaoImpl implements CountryDao {
 
         return countries;
     }
-
-    /*@Override
-    public Country findCountryByCode(String code) {
-        // Open a session
-        Session session = sessionFactory.openSession();
-
-        // Retrieve the persistent object (or null if not found)
-        Country country = session.get(Country.class,code);
-
-        // Close the session
-        session.close();
-
-        // Return the object
-        return country;
-    }*/
 
     @Override
     public Country findByCode(List<Country> countries, String code) {
