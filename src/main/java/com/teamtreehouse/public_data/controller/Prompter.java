@@ -74,7 +74,7 @@ public class Prompter {
             } catch (IOException e) {
                 System.out.println("Invalid input.  Please enter a 3 letter country code.");
             }
-        } while (countryChoice == null);
+        } while (!countries.contains(countryChoice) || countryChoice == null);
 
         return countryChoice;
     }
