@@ -27,13 +27,13 @@ public class Prompter {
     }
 
     private String promptAction() throws IOException {
-        System.out.println("Your options are:");
+        System.out.println("\n\nYour options are:");
         for (Map.Entry<String, String> option : menu.entrySet()) {
             System.out.printf("%n%s - %s %n",
                     option.getKey(),
                     option.getValue());
         }
-        System.out.print("\nWhat do you want to do: ");
+        System.out.print("\n\nWhat do you want to do: ");
         String choice = reader.readLine();
         return choice.trim().toLowerCase();
     }
@@ -46,7 +46,7 @@ public class Prompter {
                 switch (choice) {
                     case "edit":
                     Country country = promptForCountry(countries);
-                    dao.editCountry(country);
+                    // dao.editCountry(country);
                 }
             } catch (IOException ioe) {
                 System.out.print("%nProblem with input%n%n");
@@ -64,15 +64,15 @@ public class Prompter {
 
         do {
             try {
-                System.out.print("Select a country by its 3 letter code):");
+                System.out.print("\nSelect a country by its 3 letter code): ");
                 choice = reader.readLine();
                 if (choice.length() != 3) {
-                    System.out.print("Select a country by its 3 letter code):");
+                    System.out.print("\nSelect a country by its 3 letter code): ");
                     choice = reader.readLine();
                 }
-                countryChoice = dao.findByCode(countries, choice);
+                countryChoice = dao.findByCode(countries, choice.toUpperCase());
             } catch (IOException e) {
-                System.out.println("Invalid input.  Please enter a 3 letter country code.");
+                System.out.println("\nInvalid input.  Please enter a 3 letter country code.");
             }
         } while (!countries.contains(countryChoice) || countryChoice == null);
 

@@ -12,10 +12,10 @@ public class Country {
     private String name;
 
     @Column
-    private double internetUsers;
+    private Double internetUsers;
 
     @Column
-    private double adultLiteracyRate;
+    private Double adultLiteracyRate;
 
     // Default constructor for JPA
     public Country() {}
@@ -77,12 +77,12 @@ public class Country {
             this.name = name;
         }
 
-        public CountryBuilder withInternetUsers(double internetUsers) {
+        public CountryBuilder withInternetUsers(Double internetUsers) {
             this.internetUsers = internetUsers;
             return this;
         }
 
-        public CountryBuilder withAdultLiteracy(double adultLiteracyRate) {
+        public CountryBuilder withAdultLiteracy(Double adultLiteracyRate) {
             this.adultLiteracyRate = adultLiteracyRate;
             return this;
         }
