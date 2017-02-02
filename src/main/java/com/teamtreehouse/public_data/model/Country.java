@@ -68,12 +68,19 @@ public class Country {
     }
 
     public static class CountryBuilder {
+        private String code;
         private String name;
         private double internetUsers;
         private double adultLiteracyRate;
 
-        public CountryBuilder(String name) {
+        public CountryBuilder withCode(String code) {
+            this.code = code;
+            return this;
+        }
+
+        public CountryBuilder withName(String name) {
             this.name = name;
+            return this;
         }
 
         public CountryBuilder withInternetUsers(Double internetUsers) {

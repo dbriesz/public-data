@@ -5,9 +5,9 @@ import com.teamtreehouse.public_data.model.Country;
 import java.util.List;
 
 public interface CountryDao {
-    void editCountry(Country country);
-    void addCountry(Country country);
-    void deleteCountry(Country country);
+    void update(Country country);
+    void save(Country country);
+    void delete(Country country);
     List<Country> fetchAllCountries();
     Country findByCode(List<Country> countries, String code);
 }

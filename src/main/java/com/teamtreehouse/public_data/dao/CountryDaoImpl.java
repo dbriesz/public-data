@@ -29,7 +29,7 @@ public class CountryDaoImpl implements CountryDao {
     }
 
     @Override
-    public void editCountry(Country country) {
+    public void update(Country country) {
         // Open a session
         Session session = sessionFactory.openSession();
 
@@ -47,7 +47,7 @@ public class CountryDaoImpl implements CountryDao {
     }
 
     @Override
-    public void addCountry(Country country) {
+    public void save(Country country) {
         // Open a session
         Session session = sessionFactory.openSession();
 
@@ -65,7 +65,7 @@ public class CountryDaoImpl implements CountryDao {
     }
 
     @Override
-    public void deleteCountry(Country country) {
+    public void delete(Country country) {
         // Open a session
         Session session = sessionFactory.openSession();
 
