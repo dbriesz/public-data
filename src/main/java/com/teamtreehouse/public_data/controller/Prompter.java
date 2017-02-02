@@ -115,7 +115,7 @@ public class Prompter {
             } catch (IOException e) {
                 System.out.println("\nInvalid input.  Please enter a country name.");
             }
-        } while ( name.length() > 32 || name.equals(""));
+        } while (name.length() > 32 || name.equals(""));
 
         return name;
     }
@@ -126,7 +126,7 @@ public class Prompter {
         do {
             try {
                 System.out.print("\nPlease enter the number of internet users: ");
-                internetUsers = Double.parseDouble(reader.readLine());
+                internetUsers = Double.valueOf(reader.readLine());
             } catch (IOException e) {
                 System.out.println("\nInvalid input.  Please enter a number.");
             }
@@ -141,7 +141,7 @@ public class Prompter {
         do {
             try {
                 System.out.print("\nPlease enter the adult literacy rate: ");
-                adultLiteracy = Double.parseDouble(reader.readLine());
+                adultLiteracy = Double.valueOf(reader.readLine());
             } catch (IOException e) {
                 System.out.println("\nInvalid input.  Please enter a number.");
             }
@@ -169,8 +169,8 @@ public class Prompter {
                 .withAdultLiteracy(promptForAdultLiteracy())
                 .build();
         System.out.printf("Adding %s to the database...%n", country.getName());
-        dao.save(country);
         countries.add(country);
+        dao.save(country);
         System.out.println("Country added!");
     }
 

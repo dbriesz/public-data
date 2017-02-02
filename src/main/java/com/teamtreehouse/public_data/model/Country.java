@@ -20,6 +20,7 @@ public class Country {
     public Country() {}
 
     public Country(CountryBuilder builder) {
+        this.code = builder.code;
         this.name = builder.name;
         this.internetUsers = builder.internetUsers;
         this.adultLiteracyRate = builder.adultLiteracyRate;
