@@ -164,9 +164,7 @@ public class Prompter {
     }
 
     private void addCountry() throws IOException {
-        Country country = new Country.CountryBuilder()
-                .withCode(promptForCode())
-                .withName(promptForName())
+        Country country = new Country.CountryBuilder(promptForCode(), promptForName())
                 .withInternetUsers(promptForInternetUsers())
                 .withAdultLiteracy(promptForAdultLiteracy())
                 .build();

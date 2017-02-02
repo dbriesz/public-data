@@ -73,14 +73,9 @@ public class Country {
         private double internetUsers;
         private double adultLiteracyRate;
 
-        public CountryBuilder withCode(String code) {
+        public CountryBuilder (String code, String name) {
             this.code = code;
-            return this;
-        }
-
-        public CountryBuilder withName(String name) {
             this.name = name;
-            return this;
         }
 
         public CountryBuilder withInternetUsers(Double internetUsers) {
