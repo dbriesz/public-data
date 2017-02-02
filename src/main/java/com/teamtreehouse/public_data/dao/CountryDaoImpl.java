@@ -55,7 +55,7 @@ public class CountryDaoImpl implements CountryDao {
         session.beginTransaction();
 
         // Use the session to save the country
-        String code = (String)session.save(country);
+        String code = (String) session.save(country);
 
         // Commit the transaction
         session.getTransaction().commit();

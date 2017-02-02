@@ -130,7 +130,7 @@ public class Prompter {
             } catch (IOException e) {
                 System.out.println("\nInvalid input.  Please enter a number.");
             }
-        } while (String.valueOf(internetUsers).length() > 19 || internetUsers < 0);
+        } while (internetUsers < 0);
 
         return internetUsers;
     }
@@ -145,7 +145,7 @@ public class Prompter {
             } catch (IOException e) {
                 System.out.println("\nInvalid input.  Please enter a number.");
             }
-        } while (String.valueOf(adultLiteracy).length() > 19 || adultLiteracy < 0);
+        } while (adultLiteracy < 0);
 
         return adultLiteracy;
     }
@@ -153,7 +153,6 @@ public class Prompter {
     private void editCountryData() throws IOException {
         Country country = promptForCountry(countries);
 
-        country.setCode(promptForCode().toUpperCase());
         country.setName(promptForName());
         country.setInternetUsers(promptForInternetUsers());
         country.setAdultLiteracyRate(promptForAdultLiteracy());
