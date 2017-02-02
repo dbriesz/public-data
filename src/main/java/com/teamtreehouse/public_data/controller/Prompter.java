@@ -39,7 +39,7 @@ public class Prompter {
     }
 
     public void loadMenuOptions() throws IOException {
-        Integer choice;
+        Integer choice = 0;
         do{
             try {
                 choice = promptAction();
@@ -64,7 +64,7 @@ public class Prompter {
                 System.out.print("%nProblem with input%n%n");
                 ioe.printStackTrace();
             }
-        } while (promptAction() != (4));
+        } while (choice != (4));
     }
 
     private Country promptForCountry(List<Country> countries) throws IOException {
@@ -169,8 +169,8 @@ public class Prompter {
                 .withAdultLiteracy(promptForAdultLiteracy())
                 .build();
         System.out.printf("Adding %s to the database...%n", country.getName());
-        countries.add(country);
         dao.save(country);
+        countries.add(country);
         System.out.println("Country added!");
     }
 

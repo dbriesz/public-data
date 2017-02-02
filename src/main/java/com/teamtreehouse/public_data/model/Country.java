@@ -52,27 +52,27 @@ public class Country {
         this.name = name;
     }
 
-    public double getInternetUsers() {
+    public Double getInternetUsers() {
         return internetUsers;
     }
 
-    public void setInternetUsers(double internetUsers) {
+    public void setInternetUsers(Double internetUsers) {
         this.internetUsers = internetUsers;
     }
 
-    public double getAdultLiteracyRate() {
+    public Double getAdultLiteracyRate() {
         return adultLiteracyRate;
     }
 
-    public void setAdultLiteracyRate(double adultLiteracyRate) {
+    public void setAdultLiteracyRate(Double adultLiteracyRate) {
         this.adultLiteracyRate = adultLiteracyRate;
     }
 
     public static class CountryBuilder {
         private String code;
         private String name;
-        private double internetUsers;
-        private double adultLiteracyRate;
+        private Double internetUsers;
+        private Double adultLiteracyRate;
 
         public CountryBuilder (String code) {
             this.code = code;
