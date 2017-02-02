@@ -1,6 +1,5 @@
 package com.teamtreehouse.public_data.controller;
 
-import com.sun.tools.javac.util.StringUtils;
 import com.teamtreehouse.public_data.dao.CountryDao;
 import com.teamtreehouse.public_data.model.Country;
 
@@ -26,7 +25,8 @@ public class Prompter {
         menu.put(2, "Edit a country");
         menu.put(3, "Add a country");
         menu.put(4, "Delete a country");
-        menu.put(5, "Quit");
+        menu.put(5, "View statistics for each indicator");
+        menu.put(6, "Quit");
     }
 
     private int promptAction() throws IOException {
@@ -60,6 +60,9 @@ public class Prompter {
                         deleteCountry();
                         break;
                     case 5:
+                        viewStatistics();
+                        break;
+                    case 6:
                         System.out.println("\nGoodbye!");
                         System.exit(0);
                     default:
@@ -69,7 +72,7 @@ public class Prompter {
                 System.out.print("%nProblem with input%n%n");
                 ioe.printStackTrace();
             }
-        } while (choice != 5);
+        } while (choice != 6);
     }
 
     private Country promptForCountry(List<Country> countries) throws IOException {
@@ -132,12 +135,12 @@ public class Prompter {
 
         do {
             try {
-                System.out.print("\nPlease enter the number of internet users: ");
+                System.out.print("\nPlease enter the percentage of internet users: ");
                 internetUsers = Double.valueOf(reader.readLine());
             } catch (IOException e) {
                 System.out.println("\nInvalid input.  Please enter a number.");
             }
-        } while (internetUsers < 0);
+        } while (internetUsers < 0 || internetUsers > 100);
 
         return internetUsers;
     }
@@ -152,7 +155,7 @@ public class Prompter {
             } catch (IOException e) {
                 System.out.println("\nInvalid input.  Please enter a number.");
             }
-        } while (adultLiteracy < 0);
+        } while (adultLiteracy < 0 || adultLiteracy > 100);
 
         return adultLiteracy;
     }
@@ -211,5 +214,40 @@ public class Prompter {
         dao.delete(country);
         countries.remove(country);
         System.out.println("\nCountry deleted!");
+    }
+
+    private void viewStatistics() {
+        System.out.println("\nCountry with the lowest percentage of internet users:");
+        System.out.printf("%s\t\t%-4.2f", minInternetUsers().getName(), minInternetUsers().getInternetUsers());
+
+
+    }
+
+    private Country minInternetUsers() {
+        return countries.stream()
+                .filter(Objects::nonNull)
+                .min((c1, c2) -> Double.compare(c1.getInternetUsers(), c2.getInternetUsers()))
+                .get();
+    }
+
+    private Country maxInternetUsers() {
+        return countries.stream()
+                .filter(Objects::nonNull)
+                .max((c1, c2) -> Double.compare(c1.getInternetUsers(), c2.getInternetUsers()))
+                .get();
+    }
+
+    private Country minAdultLiteracy() {
+        return countries.stream()
+                .filter(Objects::nonNull)
+                .min((c1, c2) -> Double.compare(c1.getAdultLiteracyRate(), c2.getAdultLiteracyRate()))
+                .get();
+    }
+
+    private Country maxAdultLiteracy() {
+        return countries.stream()
+                .filter(Objects::nonNull)
+                .max((c1, c2) -> Double.compare(c1.getAdultLiteracyRate(), c2.getAdultLiteracyRate()))
+                .get();
     }
 }
