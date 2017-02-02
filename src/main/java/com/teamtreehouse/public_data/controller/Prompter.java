@@ -1,11 +1,13 @@
 package com.teamtreehouse.public_data.controller;
 
+import com.sun.tools.javac.util.StringUtils;
 import com.teamtreehouse.public_data.dao.CountryDao;
 import com.teamtreehouse.public_data.model.Country;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.DecimalFormat;
 import java.util.*;
 
 public class Prompter {
@@ -20,10 +22,11 @@ public class Prompter {
         countries = dao.fetchAllCountries();
         reader = new BufferedReader(new InputStreamReader(System.in));
         menu = new HashMap<>();
-        menu.put(1, "Edit a country");
-        menu.put(2, "Add a country");
-        menu.put(3, "Delete a country");
-        menu.put(4, "Quit");
+        menu.put(1, "View country data");
+        menu.put(2, "Edit a country");
+        menu.put(3, "Add a country");
+        menu.put(4, "Delete a country");
+        menu.put(5, "Quit");
     }
 
     private int promptAction() throws IOException {
@@ -33,7 +36,7 @@ public class Prompter {
                     option.getKey(),
                     option.getValue());
         }
-        System.out.print("\n\nWhat do you want to do: ");
+        System.out.print("\nWhat do you want to do: ");
 
         return Integer.parseInt(reader.readLine());
     }
@@ -45,33 +48,37 @@ public class Prompter {
                 choice = promptAction();
                 switch (choice) {
                     case 1:
-                        editCountryData();
+                        viewCountryData();
                         break;
                     case 2:
-                        addCountry();
+                        editCountryData();
                         break;
                     case 3:
-                        deleteCountry();
+                        addCountry();
                         break;
                     case 4:
-                        System.out.println("Goodbye!");
+                        deleteCountry();
                         break;
-                        default:
-                            System.out.printf("%nUnknown choice:  '%d'. Try again.  %n%n",
-                                    choice);
+                    case 5:
+                        System.out.println("\nGoodbye!");
+                        System.exit(0);
+                    default:
+                        System.out.printf("%nUnknown choice:  '%d'. Try again.  %n%n", choice);
                 }
             } catch (IOException ioe) {
                 System.out.print("%nProblem with input%n%n");
                 ioe.printStackTrace();
             }
-        } while (choice != (4));
+        } while (choice != 5);
     }
 
     private Country promptForCountry(List<Country> countries) throws IOException {
         String choice;
         Country countryChoice = null;
+        System.out.println("\nCode\tCountry");
+        System.out.println("-----------------------------------------------");
         for (Country country : countries) {
-            System.out.printf("Country Code: %s \tCountry: %s %n", country.getCode(), country.getName());
+            System.out.printf("%s\t%s%n", country.getCode(), country.getName());
         }
 
         do {
@@ -150,6 +157,30 @@ public class Prompter {
         return adultLiteracy;
     }
 
+    private void viewCountryData() {
+        System.out.println("\nCode\tCountry\t\t\t\t\t\t\t\tInternet Users\tLiteracy");
+        System.out.println("---------------------------------------------------------------------------------");
+        String internetUsersAsString;
+        String adultLiteracyAsString;
+
+        for (Country country : countries) {
+            if (country.getInternetUsers() == null) {
+                internetUsersAsString = "--";
+            } else {
+                internetUsersAsString = String.valueOf(new DecimalFormat("#.00").format(country.getInternetUsers()));
+            }
+
+            if (country.getAdultLiteracyRate() == null) {
+                adultLiteracyAsString = "--";
+            } else {
+                adultLiteracyAsString = String.valueOf(new DecimalFormat("#.00").format(country.getAdultLiteracyRate()));
+            }
+
+            System.out.printf("%s\t\t%-32s\t%-14s\t%s%n",
+                    country.getCode(), country.getName(), internetUsersAsString, adultLiteracyAsString);
+        }
+    }
+
     private void editCountryData() throws IOException {
         Country country = promptForCountry(countries);
 
@@ -159,7 +190,7 @@ public class Prompter {
 
         dao.update(country);
 
-        System.out.println("\nUpdating...");
+        System.out.println("\nUpdate complete!");
     }
 
     private void addCountry() throws IOException {
@@ -171,14 +202,14 @@ public class Prompter {
         System.out.printf("Adding %s to the database...%n", country.getName());
         dao.save(country);
         countries.add(country);
-        System.out.println("Country added!");
+        System.out.println("\nCountry added!");
     }
 
     private void deleteCountry() throws IOException {
         Country country = promptForCountry(countries);
-        System.out.printf("Removing %s from the database...%n", country.getName());
+        System.out.printf("%nRemoving %s from the database...%n", country.getName());
         dao.delete(country);
         countries.remove(country);
-        System.out.println("Country deleted!");
+        System.out.println("\nCountry deleted!");
     }
 }
