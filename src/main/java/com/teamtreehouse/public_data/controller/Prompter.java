@@ -170,13 +170,17 @@ public class Prompter {
                 .withInternetUsers(promptForInternetUsers())
                 .withAdultLiteracy(promptForAdultLiteracy())
                 .build();
+        System.out.printf("Adding %s to the database...%n", country.getName());
         dao.save(country);
         countries.add(country);
+        System.out.println("Country added!");
     }
 
     private void deleteCountry() throws IOException {
         Country country = promptForCountry(countries);
+        System.out.printf("Removing %s from the database...%n", country.getName());
         dao.delete(country);
         countries.remove(country);
+        System.out.println("Country deleted!");
     }
 }
