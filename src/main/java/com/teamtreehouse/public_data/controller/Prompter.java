@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.DecimalFormat;
 import java.util.*;
+import java.util.stream.Stream;
 
 public class Prompter {
     private CountryDao dao;
@@ -218,36 +219,78 @@ public class Prompter {
 
     private void viewStatistics() {
         System.out.println("\nCountry with the lowest percentage of internet users:");
-        System.out.printf("%s\t\t%-4.2f", minInternetUsers().getName(), minInternetUsers().getInternetUsers());
+        System.out.printf("%s\t\t\t%.2f", minInternetUsers().getName(), minInternetUsers().getInternetUsers());
 
+        System.out.println("\n\nCountry with the highest percentage of internet users:");
+        System.out.printf("%s\t\t%.2f", maxInternetUsers().getName(), maxInternetUsers().getInternetUsers());
+
+        System.out.println("\n\nCountry with the lowest percentage of adult literacy:");
+        System.out.printf("%s\t\t\t%.2f", minAdultLiteracy().getName(), minAdultLiteracy().getAdultLiteracyRate());
+
+        System.out.println("\n\nCountry with the highest percentage of adult literacy:");
+        System.out.printf("%s\t\t\t%.2f", maxAdultLiteracy().getName(), maxAdultLiteracy().getAdultLiteracyRate());
+
+        System.out.print("\n\nAverage internet users:\t\t");
+        System.out.printf("%.2f", avgInternetUsers());
+
+        System.out.print("\n\nAverage adult literacy:\t\t");
+        System.out.printf("%.2f", avgAdultLiteracy());
 
     }
 
     private Country minInternetUsers() {
         return countries.stream()
-                .filter(Objects::nonNull)
+                .filter(country -> country.getInternetUsers() != null)
                 .min((c1, c2) -> Double.compare(c1.getInternetUsers(), c2.getInternetUsers()))
                 .get();
     }
 
     private Country maxInternetUsers() {
         return countries.stream()
-                .filter(Objects::nonNull)
+                .filter(country -> country.getInternetUsers() != null)
                 .max((c1, c2) -> Double.compare(c1.getInternetUsers(), c2.getInternetUsers()))
                 .get();
     }
 
     private Country minAdultLiteracy() {
         return countries.stream()
-                .filter(Objects::nonNull)
+                .filter(country -> country.getAdultLiteracyRate() != null)
                 .min((c1, c2) -> Double.compare(c1.getAdultLiteracyRate(), c2.getAdultLiteracyRate()))
                 .get();
     }
 
     private Country maxAdultLiteracy() {
         return countries.stream()
-                .filter(Objects::nonNull)
+                .filter(country -> country.getAdultLiteracyRate() != null)
                 .max((c1, c2) -> Double.compare(c1.getAdultLiteracyRate(), c2.getAdultLiteracyRate()))
                 .get();
+    }
+
+    private Double avgInternetUsers() {
+        Double avg;
+        Double sum = 0d;
+        int count = 0;
+        for (Country country : countries) {
+            if (country.getInternetUsers() != null) {
+                sum += country.getInternetUsers();
+                count++;
+            }
+        }
+        avg = sum / count;
+        return avg;
+    }
+
+    private Double avgAdultLiteracy() {
+        Double avg;
+        Double sum = 0d;
+        int count = 0;
+        for (Country country : countries) {
+            if (country.getAdultLiteracyRate() != null) {
+                sum += country.getAdultLiteracyRate();
+                count++;
+            }
+        }
+        avg = sum / count;
+        return avg;
     }
 }
