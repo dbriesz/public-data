@@ -10,4 +10,12 @@ public interface CountryDao {
     void delete(Country country);
     List<Country> fetchAllCountries();
     Country findByCode(List<Country> countries, String code);
+    Country minInternetUsers();
+    Country maxInternetUsers();
+    Country minAdultLiteracy();
+    Country maxAdultLiteracy();
+    Double avgInternetUsers();
+    Double avgAdultLiteracy();
+    Double getCorrelationCoefficient();
+    boolean isPositive();
 }

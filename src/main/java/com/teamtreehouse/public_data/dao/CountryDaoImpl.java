@@ -9,6 +9,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.service.ServiceRegistry;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class CountryDaoImpl implements CountryDao {
@@ -105,5 +106,117 @@ public class CountryDaoImpl implements CountryDao {
                 .filter(country -> country.getCode().equals(code))
                 .findFirst()
                 .orElse(null);
+    }
+
+    @Override
+    public Country minInternetUsers() {
+        return countries.stream()
+                .filter(country -> country.getInternetUsers() != null)
+                .min(Comparator.comparingDouble(Country::getInternetUsers))
+                .get();
+    }
+
+    @Override
+    public Country maxInternetUsers() {
+        return countries.stream()
+                .filter(country -> country.getInternetUsers() != null)
+                .max(Comparator.comparingDouble(Country::getInternetUsers))
+                .get();
+    }
+
+    @Override
+    public Country minAdultLiteracy() {
+        return countries.stream()
+                .filter(country -> country.getAdultLiteracyRate() != null)
+                .min(Comparator.comparingDouble(Country::getAdultLiteracyRate))
+                .get();
+    }
+
+    @Override
+    public Country maxAdultLiteracy() {
+        return countries.stream()
+                .filter(country -> country.getAdultLiteracyRate() != null)
+                .max(Comparator.comparingDouble(Country::getAdultLiteracyRate))
+                .get();
+    }
+
+    @Override
+    public Double avgInternetUsers() {
+        Double avg;
+        Double sum = 0d;
+        int count = 0;
+        for (Country country : countries) {
+            if (country.getInternetUsers() != null) {
+                sum += country.getInternetUsers();
+                count++;
+            }
+        }
+        avg = sum / count;
+        return avg;
+    }
+
+    @Override
+    public Double avgAdultLiteracy() {
+        Double avg;
+        Double sum = 0d;
+        int count = 0;
+        for (Country country : countries) {
+            if (country.getAdultLiteracyRate() != null) {
+                sum += country.getAdultLiteracyRate();
+                count++;
+            }
+        }
+        avg = sum / count;
+        return avg;
+    }
+
+    @Override
+    public Double getCorrelationCoefficient() {
+        int n = 0;
+        Double internetUsers = 0d;
+        Double adultLiteracy = 0d;
+        Double correlationCoefficient;
+        Double multiplied;
+        Double internetSquared;
+        Double literacySquared;
+
+        Double sumInternetUsers = 0d;
+        Double sumAdultLiteracy = 0d;
+        Double sumMultiplied = 0d;
+        Double sumInternetSquared = 0d;
+        Double sumLiteracySquared = 0d;
+
+        for (Country country : countries) {
+            if (country.getInternetUsers() == null) {
+                internetUsers += 0;
+            } else {
+                internetUsers = country.getInternetUsers();
+            }
+
+            if (country.getAdultLiteracyRate() == null) {
+                adultLiteracy += 0;
+            } else {
+                adultLiteracy = country.getAdultLiteracyRate();
+            }
+
+            multiplied = internetUsers * adultLiteracy;
+            internetSquared = internetUsers * internetUsers;
+            literacySquared = adultLiteracy * adultLiteracy;
+            sumInternetSquared += internetUsers;
+            sumAdultLiteracy += adultLiteracy;
+            sumMultiplied += multiplied;
+            sumInternetSquared += internetSquared;
+            sumLiteracySquared += literacySquared;
+            n++;
+        }
+        correlationCoefficient = ((n * sumMultiplied) - (sumInternetUsers * sumAdultLiteracy)) /
+                ((sumInternetSquared - (sumInternetUsers * sumInternetUsers)) * ((sumLiteracySquared - (sumAdultLiteracy * sumAdultLiteracy))));
+
+        return correlationCoefficient;
+    }
+
+    @Override
+    public boolean isPositive() {
+        return getCorrelationCoefficient() >= 0;
     }
 }

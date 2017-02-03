@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.DecimalFormat;
 import java.util.*;
-import java.util.stream.Stream;
 
 public class Prompter {
     private CountryDao dao;
@@ -218,79 +217,41 @@ public class Prompter {
     }
 
     private void viewStatistics() {
+        String minInternetName = dao.minInternetUsers().getName();
+        String maxInternetName = dao.maxInternetUsers().getName();
+        String minAdultLiteracyName = dao.minAdultLiteracy().getName();
+        String maxAdultLiteracyName = dao.maxAdultLiteracy().getName();
+
+        Double minInternet = dao.minInternetUsers().getInternetUsers();
+        Double maxInternet = dao.maxInternetUsers().getInternetUsers();
+        Double minAdultLiteracy = dao.minAdultLiteracy().getAdultLiteracyRate();
+        Double maxAdultLiteracy = dao.maxAdultLiteracy().getAdultLiteracyRate();
+
         System.out.println("\nCountry with the lowest percentage of internet users:");
-        System.out.printf("%s\t\t\t%.2f", minInternetUsers().getName(), minInternetUsers().getInternetUsers());
+        System.out.printf("%s\t\t\t%.2f", minInternetName, minInternet);
 
         System.out.println("\n\nCountry with the highest percentage of internet users:");
-        System.out.printf("%s\t\t%.2f", maxInternetUsers().getName(), maxInternetUsers().getInternetUsers());
+        System.out.printf("%s\t\t%.2f", maxInternetName, maxInternet);
 
         System.out.println("\n\nCountry with the lowest percentage of adult literacy:");
-        System.out.printf("%s\t\t\t%.2f", minAdultLiteracy().getName(), minAdultLiteracy().getAdultLiteracyRate());
+        System.out.printf("%s\t\t\t%.2f", minAdultLiteracyName, minAdultLiteracy);
 
         System.out.println("\n\nCountry with the highest percentage of adult literacy:");
-        System.out.printf("%s\t\t\t%.2f", maxAdultLiteracy().getName(), maxAdultLiteracy().getAdultLiteracyRate());
+        System.out.printf("%s\t\t\t%.2f", maxAdultLiteracyName, maxAdultLiteracy);
 
         System.out.print("\n\nAverage internet users:\t\t");
-        System.out.printf("%.2f", avgInternetUsers());
+        System.out.printf("%.2f", dao.avgInternetUsers());
 
         System.out.print("\n\nAverage adult literacy:\t\t");
-        System.out.printf("%.2f", avgAdultLiteracy());
+        System.out.printf("%.2f", dao.avgAdultLiteracy());
 
-    }
+        System.out.print("\n\nCorrelation coefficient between internet users and adult literacy:\t\t");
+        System.out.printf("%.2f", dao.getCorrelationCoefficient());
 
-    private Country minInternetUsers() {
-        return countries.stream()
-                .filter(country -> country.getInternetUsers() != null)
-                .min(Comparator.comparingDouble(Country::getInternetUsers))
-                .get();
-    }
-
-    private Country maxInternetUsers() {
-        return countries.stream()
-                .filter(country -> country.getInternetUsers() != null)
-                .max(Comparator.comparingDouble(Country::getInternetUsers))
-                .get();
-    }
-
-    private Country minAdultLiteracy() {
-        return countries.stream()
-                .filter(country -> country.getAdultLiteracyRate() != null)
-                .min(Comparator.comparingDouble(Country::getAdultLiteracyRate))
-                .get();
-    }
-
-    private Country maxAdultLiteracy() {
-        return countries.stream()
-                .filter(country -> country.getAdultLiteracyRate() != null)
-                .max(Comparator.comparingDouble(Country::getAdultLiteracyRate))
-                .get();
-    }
-
-    private Double avgInternetUsers() {
-        Double avg;
-        Double sum = 0d;
-        int count = 0;
-        for (Country country : countries) {
-            if (country.getInternetUsers() != null) {
-                sum += country.getInternetUsers();
-                count++;
-            }
+        if (dao.isPositive()) {
+            System.out.println("\nThere is a positive correlation between a country's internet users and adult literacy.");
+        } else {
+            System.out.println("\nThere is a negative correlation between a country's internet users and adult literacy.");
         }
-        avg = sum / count;
-        return avg;
-    }
-
-    private Double avgAdultLiteracy() {
-        Double avg;
-        Double sum = 0d;
-        int count = 0;
-        for (Country country : countries) {
-            if (country.getAdultLiteracyRate() != null) {
-                sum += country.getAdultLiteracyRate();
-                count++;
-            }
-        }
-        avg = sum / count;
-        return avg;
     }
 }
