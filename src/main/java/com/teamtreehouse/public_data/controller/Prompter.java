@@ -241,28 +241,28 @@ public class Prompter {
     private Country minInternetUsers() {
         return countries.stream()
                 .filter(country -> country.getInternetUsers() != null)
-                .min((c1, c2) -> Double.compare(c1.getInternetUsers(), c2.getInternetUsers()))
+                .min(Comparator.comparingDouble(Country::getInternetUsers))
                 .get();
     }
 
     private Country maxInternetUsers() {
         return countries.stream()
                 .filter(country -> country.getInternetUsers() != null)
-                .max((c1, c2) -> Double.compare(c1.getInternetUsers(), c2.getInternetUsers()))
+                .max(Comparator.comparingDouble(Country::getInternetUsers))
                 .get();
     }
 
     private Country minAdultLiteracy() {
         return countries.stream()
                 .filter(country -> country.getAdultLiteracyRate() != null)
-                .min((c1, c2) -> Double.compare(c1.getAdultLiteracyRate(), c2.getAdultLiteracyRate()))
+                .min(Comparator.comparingDouble(Country::getAdultLiteracyRate))
                 .get();
     }
 
     private Country maxAdultLiteracy() {
         return countries.stream()
                 .filter(country -> country.getAdultLiteracyRate() != null)
-                .max((c1, c2) -> Double.compare(c1.getAdultLiteracyRate(), c2.getAdultLiteracyRate()))
+                .max(Comparator.comparingDouble(Country::getAdultLiteracyRate))
                 .get();
     }
 
