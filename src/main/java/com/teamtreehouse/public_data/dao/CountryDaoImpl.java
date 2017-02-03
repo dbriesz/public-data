@@ -173,8 +173,8 @@ public class CountryDaoImpl implements CountryDao {
     @Override
     public Double getCorrelationCoefficient() {
         int n = 0;
-        Double internetUsers = 0d;
-        Double adultLiteracy = 0d;
+        Double internetUsers;
+        Double adultLiteracy;
         Double correlationCoefficient;
         Double multiplied;
         Double internetSquared;
@@ -187,27 +187,21 @@ public class CountryDaoImpl implements CountryDao {
         Double sumLiteracySquared = 0d;
 
         for (Country country : countries) {
-            if (country.getInternetUsers() == null) {
-                internetUsers += 0;
+            if (country.getInternetUsers() == null || country.getAdultLiteracyRate() == null) {
+
             } else {
                 internetUsers = country.getInternetUsers();
-            }
-
-            if (country.getAdultLiteracyRate() == null) {
-                adultLiteracy += 0;
-            } else {
+                sumInternetUsers += internetUsers;
                 adultLiteracy = country.getAdultLiteracyRate();
+                sumAdultLiteracy += adultLiteracy;
+                multiplied = internetUsers * adultLiteracy;
+                sumMultiplied += multiplied;
+                internetSquared = internetUsers * internetUsers;
+                literacySquared = adultLiteracy * adultLiteracy;
+                sumInternetSquared += internetSquared;
+                sumLiteracySquared += literacySquared;
+                n++;
             }
-
-            multiplied = internetUsers * adultLiteracy;
-            internetSquared = internetUsers * internetUsers;
-            literacySquared = adultLiteracy * adultLiteracy;
-            sumInternetSquared += internetUsers;
-            sumAdultLiteracy += adultLiteracy;
-            sumMultiplied += multiplied;
-            sumInternetSquared += internetSquared;
-            sumLiteracySquared += literacySquared;
-            n++;
         }
         correlationCoefficient = ((n * sumMultiplied) - (sumInternetUsers * sumAdultLiteracy)) /
                 ((sumInternetSquared - (sumInternetUsers * sumInternetUsers)) * ((sumLiteracySquared - (sumAdultLiteracy * sumAdultLiteracy))));
