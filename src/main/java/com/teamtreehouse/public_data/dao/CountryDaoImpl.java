@@ -143,7 +143,7 @@ public class CountryDaoImpl implements CountryDao {
     @Override
     public Double avgInternetUsers() {
         Double avg;
-        Double sum = 0d;
+        Double sum = 0.00;
         int count = 0;
         for (Country country : countries) {
             if (country.getInternetUsers() != null) {
@@ -158,7 +158,7 @@ public class CountryDaoImpl implements CountryDao {
     @Override
     public Double avgAdultLiteracy() {
         Double avg;
-        Double sum = 0d;
+        Double sum = 0.00;
         int count = 0;
         for (Country country : countries) {
             if (country.getAdultLiteracyRate() != null) {
@@ -180,31 +180,34 @@ public class CountryDaoImpl implements CountryDao {
         Double internetSquared;
         Double literacySquared;
 
-        Double sumInternetUsers = 0d;
-        Double sumAdultLiteracy = 0d;
-        Double sumMultiplied = 0d;
-        Double sumInternetSquared = 0d;
-        Double sumLiteracySquared = 0d;
+        Double sumInternetUsers = 0.00;
+        Double sumAdultLiteracy = 0.00;
+        Double sumMultiplied = 0.00;
+        Double sumInternetSquared = 0.00;
+        Double sumLiteracySquared = 0.00;
 
         for (Country country : countries) {
-            if (country.getInternetUsers() == null || country.getAdultLiteracyRate() == null) {
-
-            } else {
+            if (country.getInternetUsers() != null && country.getAdultLiteracyRate() != null) {
                 internetUsers = country.getInternetUsers();
-                sumInternetUsers += internetUsers;
                 adultLiteracy = country.getAdultLiteracyRate();
-                sumAdultLiteracy += adultLiteracy;
+
                 multiplied = internetUsers * adultLiteracy;
-                sumMultiplied += multiplied;
                 internetSquared = internetUsers * internetUsers;
                 literacySquared = adultLiteracy * adultLiteracy;
+
+                sumInternetUsers += internetUsers;
+                sumAdultLiteracy += adultLiteracy;
+                sumMultiplied += multiplied;
                 sumInternetSquared += internetSquared;
                 sumLiteracySquared += literacySquared;
                 n++;
             }
         }
-        correlationCoefficient = ((n * sumMultiplied) - (sumInternetUsers * sumAdultLiteracy)) /
-                ((sumInternetSquared - (sumInternetUsers * sumInternetUsers)) * ((sumLiteracySquared - (sumAdultLiteracy * sumAdultLiteracy))));
+
+        Double covalence = (n * sumMultiplied - (sumInternetUsers * sumAdultLiteracy));
+        Double sigmax = sumInternetSquared - (sumInternetUsers * sumInternetUsers);
+        Double sigmay = sumLiteracySquared - (sumAdultLiteracy * sumAdultLiteracy);
+        correlationCoefficient =  covalence / Math.sqrt(sigmax * sigmay);
 
         return correlationCoefficient;
     }
