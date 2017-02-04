@@ -195,7 +195,7 @@ public class CountryDaoImpl implements CountryDao {
 
     @Override
     public Double getCorrelationCoefficient() {
-        int n = 0;
+        Double n = 0.00;
         Double internetUsers;
         Double adultLiteracy;
         Double correlationCoefficient;
@@ -247,9 +247,9 @@ public class CountryDaoImpl implements CountryDao {
         }
 
         // Breaks the correlation coefficient equation into separate parts
-        Double covalence = (n * sumMultiplied - (sumInternetUsers * sumAdultLiteracy));
-        Double sigmax = sumInternetSquared - (sumInternetUsers * sumInternetUsers);
-        Double sigmay = sumLiteracySquared - (sumAdultLiteracy * sumAdultLiteracy);
+        Double covalence = (n * sumMultiplied) - (sumInternetUsers * sumAdultLiteracy);
+        Double sigmax = (n * sumInternetSquared) - (sumInternetUsers * sumInternetUsers);
+        Double sigmay = (n * sumLiteracySquared) - (sumAdultLiteracy * sumAdultLiteracy);
 
         // Final calculation of the correlation coefficient equation
         correlationCoefficient =  covalence / Math.sqrt(sigmax * sigmay);
