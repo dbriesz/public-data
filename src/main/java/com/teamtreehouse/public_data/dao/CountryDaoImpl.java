@@ -111,6 +111,11 @@ public class CountryDaoImpl implements CountryDao {
     }
 
     @Override
+    public void updateCountries(List<Country> updatedCountries) {
+        countries = updatedCountries;
+    }
+
+    @Override
     public Country minInternetUsers() {
 
         // Uses a stream to compare each country and find the country with the lowest percentage of internet users

@@ -192,7 +192,7 @@ public class Prompter {
         country.setAdultLiteracyRate(promptForAdultLiteracy());
 
         dao.update(country);
-
+        dao.updateCountries(countries);
         System.out.println("\nUpdate complete!");
     }
 
@@ -205,6 +205,7 @@ public class Prompter {
         System.out.printf("Adding %s to the database...%n", country.getName());
         dao.save(country);
         countries.add(country);
+        dao.updateCountries(countries);
         System.out.println("\nCountry added!");
     }
 
@@ -213,6 +214,7 @@ public class Prompter {
         System.out.printf("%nRemoving %s from the database...%n", country.getName());
         dao.delete(country);
         countries.remove(country);
+        dao.updateCountries(countries);
         System.out.println("\nCountry deleted!");
     }
 
