@@ -37,8 +37,15 @@ public class Prompter {
                     option.getValue());
         }
         System.out.print("\nWhat do you want to do: ");
+        int choice = 0;
 
-        return Integer.parseInt(reader.readLine());
+        try {
+            choice = Integer.parseInt(reader.readLine());
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid input.  Please enter a number between 1 and 6.\n");
+        }
+
+        return choice;
     }
 
     public void loadMenuOptions() throws IOException {
@@ -66,10 +73,10 @@ public class Prompter {
                         System.out.println("\nGoodbye!");
                         System.exit(0);
                     default:
-                        System.out.printf("%nUnknown choice:  '%d'. Try again.  %n%n", choice);
+                        System.out.println("Please try again.\n");
                 }
             } catch (IOException ioe) {
-                System.out.print("%nProblem with input%n%n");
+                System.out.print("%nProblem with input%n");
                 ioe.printStackTrace();
             }
         } while (choice != 6);
